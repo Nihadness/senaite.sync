@@ -18,14 +18,12 @@ profile = 'profile-{senaite.sync}:default'
 def upgrade(tool):
     portal = aq_parent(aq_inner(tool))
     fields_to_update = ['expirationDate', 'effectiveDate']
-    skip = ['Sample', 'Doctor', 'Instrument', 'Calculation',
-            'InstrumentCertification', 'Contact', 'LabContact', 'Batch',
-            'ARReport']
+    types = ['Doctor', 'Instrument', 'Calculation',
+            'InstrumentCertification', 'Contact', 'LabContact']
     pc = api.get_tool("portal_catalog", portal)
-    brains = pc(is_folderish=True)
+    brains = pc(is_folderish=True, portal_type={"query": types,
+                                                "operator": "or"})
     for brain in brains:
-        if brain.portal_type in skip:
-            continue
         obj = brain.getObject()
         logger.info("Handling {}".format(repr(obj)))
         schema = obj.Schema()
