@@ -41,7 +41,7 @@ def upgrade(tool):
 
     ar_c = api.get_tool(CATALOG_ANALYSIS_REQUEST_LISTING, portal)
     ars = ar_c(review_state='to_be_verified')
-    logger("Walking through {} AR's in 'to_be_verified' state".format(len(ars)))
+    logger.info("Walking through {} AR's in 'to_be_verified' state".format(len(ars)))
     for ar in ars:
         obj = ar.getObject()
         ans = obj.getAnalyses()
